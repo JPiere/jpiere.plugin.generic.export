@@ -20,7 +20,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.base.IModelFactory;
-import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.PO;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
