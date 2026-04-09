@@ -55,6 +55,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
+import org.idempiere.db.util.SQLFragment;
 
 import jpiere.plugin.generic.export.model.MGenericExpFormat;
 import jpiere.plugin.generic.export.model.MGenericExpFormatReplace;
@@ -510,10 +511,11 @@ public class GenericExportProcess extends SvrProcess {
 						.append(" WHERE AD_Client_ID = ? ");
 				
 				if(!Util.isEmpty(m_MGenericExpFormat.getWhereClause()))
-					mQuery.addRestriction(m_MGenericExpFormat.getWhereClause());
+					mQuery.addRestriction(new SQLFragment(m_MGenericExpFormat.getWhereClause()) );
 				
-				if(!Util.isEmpty(mQuery.getWhereClause()))
-					sql.append(" AND ").append(mQuery.getWhereClause());
+				SQLFragment filter = mQuery.getSQLFilter(true);
+				if(!Util.isEmpty(filter.toSQLWithParameters()))
+					sql.append(" AND ").append(filter.toSQLWithParameters());
 				
 				if(!Util.isEmpty(m_MGenericExpFormat.getOrderByClause()))
 					sql.append(" ORDER BY ").append(m_MGenericExpFormat.getOrderByClause());
